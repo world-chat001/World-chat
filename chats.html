@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Chats - WORLD CHAT</title>
+
+  <link rel="stylesheet" href="chats.css">
+</head>
+
+<body>
+
+  <main class="chats-page">
+
+    <header class="topbar">
+
+      <div class="brand">
+        <span class="brand-icon">🌍</span>
+
+        <div>
+          <strong>WORLD CHAT</strong>
+          <small>MESSAGES</small>
+        </div>
+      </div>
+
+      <button
+        class="back-button"
+        onclick="location.href='home.html'"
+      >
+        ←
+      </button>
+
+    </header>
+
+
+    <section class="chats-intro">
+
+      <p class="eyebrow">STAY CONNECTED</p>
+
+      <h1>Your Chats</h1>
+
+      <p>
+        Continue your conversations with people around the world.
+      </p>
+
+    </section>
+
+
+    <section class="search-area">
+
+      <div class="search-box">
+        <span>🔎</span>
+
+        <input
+          type="search"
+          id="chatSearch"
+          placeholder="Search conversations..."
+          autocomplete="off"
+        >
+      </div>
+
+    </section>
+
+
+    <section class="conversation-section">
+
+      <div id="conversationList">
+
+        <div class="loading">
+          <span>🌍</span>
+          <p>Loading conversations...</p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <nav class="bottom-nav">
+
+      <a class="nav-item" href="home.html">
+        <span>⌂</span>
+        <small>Home</small>
+      </a>
+
+      <a class="nav-item" href="discover.html">
+        <span>🌎</span>
+        <small>Discover</small>
+      </a>
+
+      <a class="nav-item active" href="chats.html">
+        <span>💬</span>
+        <small>Chats</small>
+      </a>
+
+      <a class="nav-item" href="profile.html">
+        <span>👤</span>
+        <small>Profile</small>
+      </a>
+
+    </nav>
+
+  </main>
+
+  <script type="module" src="chats.js"></script>
+
+</body>
+</html>

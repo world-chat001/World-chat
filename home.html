@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>WORLD CHAT</title>
+
+  <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+
+  <main class="home">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+      <div class="brand">
+        <span>🌍</span>
+        <strong>WORLD CHAT</strong>
+      </div>
+
+      <button class="notification" id="notificationBtn">
+        🔔
+        <span class="notification-dot"></span>
+      </button>
+
+    </header>
+
+
+    <!-- WELCOME -->
+    <section class="welcome">
+
+      <div>
+        <p class="small-title">WELCOME TO THE WORLD</p>
+
+        <h1>
+          Hello, <span id="userName">there</span> 👋
+        </h1>
+
+        <p>
+          Discover people and conversations from around the world.
+        </p>
+      </div>
+
+    </section>
+
+
+    <!-- SEARCH -->
+    <section class="search-area">
+
+      <input
+        type="search"
+        id="peopleSearch"
+        placeholder="Search people..."
+      >
+
+    </section>
+
+
+    <!-- QUICK ACTIONS -->
+    <section class="quick-actions">
+
+      <button
+        class="action-card"
+        onclick="location.href='discover.html'"
+      >
+
+        <span class="action-icon">🌎</span>
+
+        <div>
+          <strong>Discover</strong>
+          <small>Meet people around the world</small>
+        </div>
+
+      </button>
+
+
+      <button
+        class="action-card"
+        onclick="location.href='chats.html'"
+      >
+
+        <span class="action-icon">💬</span>
+
+        <div>
+          <strong>Messages</strong>
+          <small>Continue your conversations</small>
+        </div>
+
+      </button>
+
+    </section>
+
+
+    <!-- DISCOVER PEOPLE -->
+    <section class="people-section">
+
+      <div class="section-heading">
+
+        <div>
+          <p class="section-label">GLOBAL COMMUNITY</p>
+
+          <h2>People you can meet</h2>
+        </div>
+
+        <a href="discover.html">See all</a>
+
+      </div>
+
+
+      <div id="peopleList" class="people-list">
+
+        <div class="loading">
+          Discovering people...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+
+      <a class="nav-item active" href="home.html">
+        <span>⌂</span>
+        <small>Home</small>
+      </a>
+
+      <a class="nav-item" href="discover.html">
+        <span>🌎</span>
+        <small>Discover</small>
+      </a>
+
+      <a class="nav-item" href="chats.html">
+        <span>💬</span>
+        <small>Chats</small>
+      </a>
+
+      <a class="nav-item" href="profile.html">
+        <span>👤</span>
+        <small>Profile</small>
+      </a>
+
+    </nav>
+
+  </main>
+
+
+  <!-- JAVASCRIPT -->
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="home.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+html,
+body {
+width: 100%;
+height: 100%;
+}
+
+body {
+font-family: Arial, sans-serif;
+background: #020b15;
+color: #ffffff;
+overflow: hidden;
+}
+
+.call-page {
+width: 100%;
+height: 100vh;
+position: relative;
+background:
+radial-gradient(
+circle at 50% 35%,
+rgba(0, 120, 255, 0.18),
+transparent 45%
+),
+#020b15;
+}
+
+.call-header {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 75px;
+z-index: 10;
+
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+padding: 0 18px;
+
+background: rgba(0, 8, 18, 0.75);
+backdrop-filter: blur(10px);
+}
+
+.call-header strong {
+display: block;
+font-size: 15px;
+letter-spacing: 1px;
+}
+
+.call-header span {
+display: block;
+margin-top: 4px;
+color: #65c9ff;
+font-size: 9px;
+letter-spacing: 1.5px;
+}
+
+.close-button {
+width: 42px;
+height: 42px;
+
+border: none;
+border-radius: 50%;
+
+background: rgba(255, 255, 255, 0.08);
+color: #ffffff;
+
+font-size: 27px;
+cursor: pointer;
+}
+
+.video-area {
+width: 100%;
+height: 100%;
+position: relative;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+overflow: hidden;
+}
+
+.remote-video {
+width: 100%;
+height: 100%;
+
+object-fit: cover;
+
+background:
+radial-gradient(
+circle,
+#07345a 0%,
+#020b15 65%
+);
+}
+
+.local-video {
+position: absolute;
+
+right: 16px;
+bottom: 125px;
+
+width: 115px;
+height: 165px;
+
+object-fit: cover;
+
+border-radius: 16px;
+
+border: 2px solid rgba(255, 255, 255, 0.2);
+
+background: #061321;
+
+box-shadow:
+0 8px 25px rgba(0, 0, 0, 0.45);
+}
+
+.waiting-message {
+position: absolute;
+z-index: 3;
+
+text-align: center;
+pointer-events: none;
+}
+
+.call-avatar {
+width: 95px;
+height: 95px;
+
+margin: 0 auto 18px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 50%;
+
+background:
+linear-gradient(
+135deg,
+#008cff,
+#004b9b
+);
+
+font-size: 40px;
+
+box-shadow:
+0 0 35px rgba(0, 140, 255, 0.35);
+}
+
+.waiting-message h2 {
+font-size: 21px;
+margin-bottom: 7px;
+}
+
+.waiting-message p {
+color: #8ba8ba;
+font-size: 13px;
+}
+
+.call-controls {
+position: absolute;
+
+z-index: 20;
+
+bottom: 30px;
+left: 0;
+
+width: 100%;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+gap: 18px;
+}
+
+.control-button,
+.end-button {
+border: none;
+cursor: pointer;
+
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.control-button {
+width: 52px;
+height: 52px;
+
+border-radius: 50%;
+
+background: rgba(255, 255, 255, 0.12);
+
+color: #ffffff;
+
+font-size: 21px;
+
+backdrop-filter: blur(8px);
+}
+
+.end-button {
+width: 64px;
+height: 64px;
+
+border-radius: 50%;
+
+background: #e5394f;
+
+color: #ffffff;
+
+font-size: 27px;
+
+transform: rotate(135deg);
+
+box-shadow:
+0 8px 25px rgba(229, 57, 79, 0.35);
+}
+
+.control-button:active,
+.end-button:active {
+transform: scale(0.94);
+}
+
+.end-button:active {
+transform: rotate(135deg) scale(0.94);
+}
+
+.hidden {
+display: none !important;
+}
+
+@media (max-width: 480px) {
+
+.local-video {
+width: 100px;
+height: 145px;
+right: 12px;
+bottom: 120px;
+}
+
+.call-controls {
+bottom: 24px;
+gap: 14px;
+}
+
+}

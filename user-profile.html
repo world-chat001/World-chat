@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>WORLD CHAT - Edit Profile</title>
+
+  <link rel="stylesheet" href="edit-profile.css">
+</head>
+
+<body>
+
+  <main class="edit-page">
+
+    <header class="topbar">
+
+      <div class="brand">
+        <span class="brand-icon">🌍</span>
+
+        <div>
+          <strong>WORLD CHAT</strong>
+          <small>EDIT PROFILE</small>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="back-button"
+        onclick="window.location.href='profile.html'"
+      >
+        ←
+      </button>
+
+    </header>
+
+    <section class="edit-card">
+
+      <p class="eyebrow">
+        YOUR WORLD CHAT PROFILE
+      </p>
+
+      <h1>Edit Profile</h1>
+
+      <p class="subtitle">
+        Update your profile and let people around the world know you.
+      </p>
+
+      <div class="photo-section">
+
+        <div class="profile-avatar">
+          <span>?</span>
+        </div>
+
+        <label
+          for="photoInput"
+          class="photo-button"
+        >
+          📷 Change Photo
+        </label>
+
+        <input
+          type="file"
+          id="photoInput"
+          accept="image/*"
+          hidden
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label for="nameInput">
+          Full Name
+        </label>
+
+        <input
+          type="text"
+          id="nameInput"
+          placeholder="Your full name"
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label for="bioInput">
+          Bio
+        </label>
+
+        <textarea
+          id="bioInput"
+          placeholder="Tell people something about you..."
+          rows="4"
+        ></textarea>
+
+      </div>
+
+      <div class="input-group">
+
+        <label for="locationInput">
+          Location
+        </label>
+
+        <input
+          type="text"
+          id="locationInput"
+          placeholder="e.g. Lagos, Nigeria"
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label for="statusInput">
+          Status
+        </label>
+
+        <input
+          type="text"
+          id="statusInput"
+          placeholder="Your current status"
+        >
+
+      </div>
+
+      <button
+        type="button"
+        class="save-button"
+      >
+        Save Changes
+      </button>
+
+      <button
+        type="button"
+        class="cancel-button"
+        onclick="window.location.href='profile.html'"
+      >
+        Cancel
+      </button>
+
+    </section>
+
+  </main>
+
+</body>
+</html>

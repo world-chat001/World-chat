@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Discover - WORLD CHAT</title>
+
+  <link rel="stylesheet" href="discover.css">
+</head>
+
+<body>
+
+  <main class="discover-page">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+      <div class="brand">
+        <span class="brand-icon">🌍</span>
+
+        <div>
+          <strong>WORLD CHAT</strong>
+          <small>GLOBAL COMMUNITY</small>
+        </div>
+      </div>
+
+      <button
+        class="back-button"
+        onclick="location.href='home.html'"
+        aria-label="Back to home"
+      >
+        ←
+      </button>
+
+    </header>
+
+
+    <!-- PAGE INTRO -->
+    <section class="discover-intro">
+
+      <p class="eyebrow">
+        CONNECT BEYOND BORDERS
+      </p>
+
+      <h1>
+        Discover people
+      </h1>
+
+      <p>
+        Meet people from different parts of the world and start real conversations.
+      </p>
+
+    </section>
+
+
+    <!-- SEARCH -->
+    <section class="search-area">
+
+      <div class="search-box">
+
+        <span>🔎</span>
+
+        <input
+          type="search"
+          id="peopleSearch"
+          placeholder="Search people..."
+          autocomplete="off"
+        >
+
+      </div>
+
+    </section>
+
+
+    <!-- FILTERS -->
+    <section class="filters">
+
+      <button class="filter active" type="button">
+        🌎 Everyone
+      </button>
+
+      <button class="filter" type="button">
+        🟢 Online
+      </button>
+
+      <button class="filter" type="button">
+        ✨ New people
+      </button>
+
+    </section>
+
+
+    <!-- PEOPLE -->
+    <section class="people-section">
+
+      <div class="section-heading">
+
+        <div>
+          <p class="section-label">
+            WORLDWIDE
+          </p>
+
+          <h2>
+            People to discover
+          </h2>
+        </div>
+
+      </div>
+
+
+      <div
+        id="peopleList"
+        class="people-list"
+      >
+
+        <div class="loading">
+          <span>🌍</span>
+          <p>Discovering people...</p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+
+      <a
+        class="nav-item"
+        href="home.html"
+      >
+        <span>⌂</span>
+        <small>Home</small>
+      </a>
+
+      <a
+        class="nav-item active"
+        href="discover.html"
+      >
+        <span>🌎</span>
+        <small>Discover</small>
+      </a>
+
+      <a
+        class="nav-item"
+        href="chats.html"
+      >
+        <span>💬</span>
+        <small>Chats</small>
+      </a>
+
+      <a
+        class="nav-item"
+        href="profile.html"
+      >
+        <span>👤</span>
+        <small>Profile</small>
+      </a>
+
+    </nav>
+
+  </main>
+<script type="module" src="discover.js"></script>
+</body>
+</html>

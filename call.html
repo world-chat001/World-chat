@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Call - WORLD CHAT</title>  <link rel="stylesheet" href="call.css">
+</head><body>  <main class="call-page"><div class="call-header">
+
+  <div>
+    <strong>WORLD CHAT</strong>
+    <span id="callType">VIDEO CALL</span>
+  </div>
+
+  <button
+    id="closeBtn"
+    class="close-button"
+    type="button"
+  >
+    ×
+  </button>
+
+</div>
+
+<section class="video-area">
+
+  <video
+    id="remoteVideo"
+    class="remote-video"
+    autoplay
+    playsinline
+  ></video>
+
+  <div
+    id="waitingMessage"
+    class="waiting-message"
+  >
+    <div class="call-avatar">
+      🌍
+    </div>
+
+    <h2 id="personName">
+      Connecting...
+    </h2>
+
+    <p id="callStatus">
+      Preparing call...
+    </p>
+  </div>
+
+  <video
+    id="localVideo"
+    class="local-video"
+    autoplay
+    muted
+    playsinline
+  ></video>
+
+</section>
+
+<div class="call-controls">
+
+  <button
+    id="muteBtn"
+    class="control-button"
+    type="button"
+  >
+    🎙️
+  </button>
+
+  <button
+    id="cameraBtn"
+    class="control-button"
+    type="button"
+  >
+    📹
+  </button>
+
+  <button
+    id="endBtn"
+    class="end-button"
+    type="button"
+  >
+    ☎
+  </button>
+
+</div>
+
+  </main>  <script
+    type="module"
+    src="call.js"
+  ></script></body>
+</html>

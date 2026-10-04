@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+html,
+body {
+width: 100%;
+min-height: 100%;
+}
+
+body {
+font-family: Arial, sans-serif;
+background: #020b15;
+color: #ffffff;
+}
+
+.notifications-page {
+min-height: 100vh;
+background:
+radial-gradient(
+circle at 50% 0%,
+rgba(0, 130, 255, 0.18),
+transparent 45%
+),
+#020b15;
+}
+
+.notifications-header {
+height: 75px;
+display: flex;
+align-items: center;
+gap: 15px;
+padding: 0 18px;
+background: rgba(0, 8, 18, 0.85);
+border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.back-button {
+width: 42px;
+height: 42px;
+border: none;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.08);
+color: #ffffff;
+font-size: 25px;
+cursor: pointer;
+}
+
+.notifications-header strong {
+display: block;
+font-size: 15px;
+letter-spacing: 1px;
+}
+
+.notifications-header span {
+display: block;
+margin-top: 4px;
+color: #65c9ff;
+font-size: 9px;
+letter-spacing: 1.5px;
+}
+
+.notifications-content {
+padding: 20px 16px 30px;
+}
+
+.notifications-list {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.empty-state {
+min-height: 60vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+
+.empty-icon {
+width: 75px;
+height: 75px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+background: rgba(0, 140, 255, 0.12);
+font-size: 32px;
+margin-bottom: 20px;
+}
+
+.empty-state h2 {
+font-size: 20px;
+margin-bottom: 8px;
+}
+
+.empty-state p {
+color: #8fa8b8;
+font-size: 13px;
+}
+
+.notification-card {
+display: flex;
+align-items: center;
+gap: 14px;
+padding: 16px;
+border-radius: 16px;
+background: rgba(255, 255, 255, 0.06);
+border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.notification-card.unread {
+background: rgba(0, 140, 255, 0.10);
+border-color: rgba(0, 140, 255, 0.20);
+}
+
+.notification-icon {
+width: 50px;
+height: 50px;
+flex-shrink: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+background: linear-gradient(135deg, #008cff, #004b9b);
+font-size: 23px;
+}
+
+.notification-info {
+flex: 1;
+}
+
+.notification-title {
+font-size: 14px;
+font-weight: bold;
+margin-bottom: 5px;
+}
+
+.notification-time {
+color: #8fa8b8;
+font-size: 11px;
+}
+
+.notification-dot {
+width: 9px;
+height: 9px;
+border-radius: 50%;
+background: #ff334f;
+flex-shrink: 0;
+}

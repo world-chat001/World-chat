@@ -1,0 +1,641 @@
+/* ================================
+   WORLD CHAT — DISCOVERY PAGE
+   ================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 5, 20, 0.18),
+      rgba(0, 6, 22, 0.42),
+      rgba(0, 3, 15, 0.82)
+    ),
+    url("discover-bg.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  overflow-x: hidden;
+}
+
+
+/* ================================
+   MAIN PAGE
+   ================================ */
+
+.discover-page {
+  width: 100%;
+  min-height: 100vh;
+
+  padding-bottom: 95px;
+}
+
+
+/* ================================
+   TOP BAR
+   ================================ */
+
+.topbar {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 17px 20px;
+
+  background: rgba(0, 4, 18, 0.58);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  position: sticky;
+  top: 0;
+
+  z-index: 50;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.brand-icon {
+  font-size: 28px;
+}
+
+.brand strong {
+  display: block;
+
+  font-size: 15px;
+
+  letter-spacing: 1.8px;
+}
+
+.brand small {
+  display: block;
+
+  margin-top: 4px;
+
+  color: rgba(255, 255, 255, 0.52);
+
+  font-size: 8px;
+
+  letter-spacing: 2px;
+}
+
+.back-button {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: #ffffff;
+
+  font-size: 23px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.back-button:active {
+  transform: scale(0.94);
+}
+
+
+/* ================================
+   INTRO
+   ================================ */
+
+.discover-intro {
+  width: 100%;
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  padding: 48px 22px 25px;
+}
+
+.eyebrow {
+  margin-bottom: 10px;
+
+  color: #61caff;
+
+  font-size: 10px;
+
+  font-weight: bold;
+
+  letter-spacing: 2.8px;
+}
+
+.discover-intro h1 {
+  margin-bottom: 12px;
+
+  font-size: 36px;
+
+  line-height: 1.05;
+
+  letter-spacing: -1px;
+}
+
+.discover-intro > p:last-child {
+  max-width: 550px;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 14px;
+
+  line-height: 1.65;
+}
+
+
+/* ================================
+   SEARCH
+   ================================ */
+
+.search-area {
+  width: 100%;
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  padding: 0 22px 18px;
+}
+
+.search-box {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 15px 17px;
+
+  background: rgba(0, 7, 24, 0.72);
+
+  border: 1px solid rgba(91, 203, 255, 0.18);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.25),
+    inset 0 0 20px rgba(0, 130, 255, 0.03);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.search-box span {
+  font-size: 17px;
+
+  opacity: 0.75;
+}
+
+.search-box input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-size: 14px;
+}
+
+.search-box input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+
+/* ================================
+   FILTERS
+   ================================ */
+
+.filters {
+  width: 100%;
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  padding: 0 22px 30px;
+
+  display: flex;
+
+  gap: 9px;
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar {
+  display: none;
+}
+
+.filter {
+  flex-shrink: 0;
+
+  padding: 10px 15px;
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
+
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  color: rgba(255, 255, 255, 0.70);
+
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.filter.active {
+  background: rgba(38, 167, 255, 0.20);
+
+  border-color: rgba(79, 197, 255, 0.48);
+
+  color: #ffffff;
+
+  box-shadow:
+    0 0 18px rgba(0, 160, 255, 0.10);
+}
+
+.filter:active {
+  transform: scale(0.96);
+}
+
+
+/* ================================
+   PEOPLE SECTION
+   ================================ */
+
+.people-section {
+  width: 100%;
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  padding: 0 22px;
+}
+
+.section-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 18px;
+}
+
+.section-label {
+  margin-bottom: 6px;
+
+  color: #61caff;
+
+  font-size: 9px;
+
+  font-weight: bold;
+
+  letter-spacing: 2.3px;
+}
+
+.section-heading h2 {
+  font-size: 21px;
+
+  letter-spacing: -0.3px;
+}
+
+
+/* ================================
+   PEOPLE LIST
+   ================================ */
+
+.people-list {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.loading {
+  width: 100%;
+  min-height: 160px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  background: rgba(0, 6, 22, 0.62);
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+
+  border-radius: 20px;
+
+  backdrop-filter: blur(13px);
+  -webkit-backdrop-filter: blur(13px);
+
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.loading span {
+  font-size: 30px;
+}
+
+.loading p {
+  font-size: 12px;
+}
+
+
+/* ================================
+   PERSON CARD
+   ================================ */
+
+.person-card {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 14px;
+
+  background: rgba(0, 7, 23, 0.67);
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+
+  border-radius: 18px;
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.18);
+
+  transition: 0.2s ease;
+}
+
+.person-card:active {
+  transform: scale(0.985);
+}
+
+.person-avatar {
+  width: 52px;
+  height: 52px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      rgba(104, 214, 255, 0.35),
+      rgba(12, 88, 145, 0.20)
+    );
+
+  border: 1px solid rgba(91, 204, 255, 0.30);
+
+  font-size: 22px;
+}
+
+.person-info {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.person-info strong {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 15px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.person-info small {
+  display: block;
+
+  color: rgba(255, 255, 255, 0.50);
+
+  font-size: 11px;
+}
+
+.chat-button {
+  flex-shrink: 0;
+
+  padding: 9px 14px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: #168fe8;
+
+  color: #ffffff;
+
+  font-size: 10px;
+
+  font-weight: bold;
+
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 18px rgba(0, 130, 255, 0.18);
+}
+
+.chat-button:active {
+  transform: scale(0.94);
+}
+
+
+/* ================================
+   BOTTOM NAVIGATION
+   ================================ */
+
+.bottom-nav {
+  position: fixed;
+
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 74px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-around;
+
+  background: rgba(0, 3, 16, 0.91);
+
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  z-index: 100;
+}
+
+.nav-item {
+  min-width: 65px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 5px;
+
+  color: rgba(255, 255, 255, 0.43);
+
+  text-decoration: none;
+
+  font-size: 19px;
+
+  transition: 0.2s ease;
+}
+
+.nav-item small {
+  font-size: 10px;
+}
+
+.nav-item.active {
+  color: #58caff;
+
+  text-shadow:
+    0 0 14px rgba(70, 195, 255, 0.40);
+}
+
+
+/* ================================
+   MOBILE
+   ================================ */
+
+@media (max-width: 480px) {
+
+  .topbar {
+    padding: 15px 16px;
+  }
+
+  .discover-intro {
+    padding: 36px 16px 23px;
+  }
+
+  .discover-intro h1 {
+    font-size: 31px;
+  }
+
+  .search-area {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .filters {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .people-section {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .person-card {
+    padding: 12px;
+  }
+
+  .person-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .chat-button {
+    padding: 8px 11px;
+  }
+
+}
+
+
+/* ================================
+   VERY SMALL PHONES
+   ================================ */
+
+@media (max-width: 360px) {
+
+  .discover-intro h1 {
+    font-size: 28px;
+  }
+
+  .person-info small {
+    font-size: 10px;
+  }
+
+  .chat-button {
+    font-size: 9px;
+    padding: 8px 9px;
+  }
+
+}

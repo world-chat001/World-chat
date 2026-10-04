@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>WORLD CHAT</title>  <link rel="stylesheet" href="chat.css">
+</head><body>  <div class="chat-page"><!-- TOP BAR -->
+<header class="chat-header">
+
+  <button
+    class="back-btn"
+    onclick="goBack()"
+  >
+    ‹
+  </button>
+
+  <div class="user-info">
+
+    <div
+      class="user-avatar"
+      id="userAvatar"
+    >
+      ?
+    </div>
+
+    <div>
+      <h2 id="userName">
+        Loading...
+      </h2>
+
+      <span id="userStatus">
+        WORLD CHAT
+      </span>
+    </div>
+
+  </div>
+
+
+  <!-- CALL BUTTONS -->
+  <div class="call-buttons">
+
+    <button
+      class="call-btn"
+      type="button"
+      title="Voice Call"
+      onclick="startVoiceCall()"
+    >
+      📞
+    </button>
+
+    <button
+      class="call-btn"
+      type="button"
+      title="Video Call"
+      onclick="startVideoCall()"
+    >
+      📹
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- MESSAGES -->
+<main
+  class="messages-container"
+  id="messagesContainer"
+>
+
+  <div class="welcome-message">
+
+    <div class="welcome-icon">
+      🌍
+    </div>
+
+    <h3>
+      Start a conversation
+    </h3>
+
+    <p>
+      Connect with someone from another part of the world.
+    </p>
+
+  </div>
+
+</main>
+
+
+<!-- MESSAGE BOX -->
+<footer class="message-area">
+
+  <input
+    type="text"
+    id="messageInput"
+    placeholder="Write a message..."
+    autocomplete="off"
+  >
+
+  <button
+    id="sendBtn"
+    onclick="sendMessage()"
+  >
+    ➤
+  </button>
+
+</footer>
+
+  </div>  <script type="module" src="chat.js"></script></body>
+</html>

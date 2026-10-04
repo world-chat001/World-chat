@@ -1,0 +1,431 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+html,
+body {
+width: 100%;
+min-height: 100%;
+}
+
+body {
+font-family: Arial, sans-serif;
+background: #020b15;
+color: #ffffff;
+}
+
+.couples-page {
+min-height: 100vh;
+padding-bottom: 40px;
+
+background:
+radial-gradient(
+circle at 50% 0%,
+rgba(0, 140, 255, 0.20),
+transparent 45%
+),
+#020b15;
+}
+
+/* ==============================
+HEADER
+============================== */
+
+.couples-header {
+height: 75px;
+
+display: flex;
+align-items: center;
+
+gap: 15px;
+
+padding: 0 18px;
+
+background:
+rgba(0, 8, 18, 0.88);
+
+border-bottom:
+1px solid rgba(255, 255, 255, 0.08);
+}
+
+.back-button {
+width: 42px;
+height: 42px;
+
+border: none;
+border-radius: 50%;
+
+background:
+rgba(255, 255, 255, 0.08);
+
+color: #ffffff;
+
+font-size: 25px;
+
+cursor: pointer;
+}
+
+.couples-header strong {
+display: block;
+
+font-size: 15px;
+
+letter-spacing: 1px;
+}
+
+.couples-header span {
+display: block;
+
+margin-top: 4px;
+
+color: #65c9ff;
+
+font-size: 9px;
+
+letter-spacing: 1.5px;
+}
+
+/* ==============================
+INTRO
+============================== */
+
+.game-intro {
+text-align: center;
+
+padding:
+35px
+20px
+25px;
+}
+
+.game-icon {
+width: 80px;
+height: 80px;
+
+margin:
+0 auto
+18px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 50%;
+
+background:
+rgba(0, 140, 255, 0.12);
+
+border:
+1px solid
+rgba(0, 160, 255, 0.20);
+
+font-size: 36px;
+
+box-shadow:
+0 0 30px
+rgba(0, 140, 255, 0.12);
+}
+
+.eyebrow {
+color: #65c9ff;
+
+font-size: 9px;
+
+font-weight: bold;
+
+letter-spacing: 2px;
+
+margin-bottom: 9px;
+}
+
+.game-intro h1 {
+font-size: 27px;
+
+margin-bottom: 10px;
+}
+
+.intro-text {
+max-width: 330px;
+
+margin: 0 auto;
+
+color: #8fa8b8;
+
+font-size: 13px;
+
+line-height: 1.6;
+}
+
+/* ==============================
+GAME CARD
+============================== */
+
+.game-card {
+width: calc(100% - 32px);
+
+max-width: 520px;
+
+margin: 0 auto;
+
+padding: 22px 18px 20px;
+
+border-radius: 20px;
+
+background:
+rgba(255, 255, 255, 0.055);
+
+border:
+1px solid
+rgba(255, 255, 255, 0.08);
+
+box-shadow:
+0 20px 50px
+rgba(0, 0, 0, 0.25);
+}
+
+/* ==============================
+PROGRESS
+============================== */
+
+.progress-area {
+margin-bottom: 28px;
+}
+
+.progress-area span {
+display: block;
+
+margin-bottom: 9px;
+
+color: #8fa8b8;
+
+font-size: 11px;
+
+text-align: center;
+}
+
+.progress-bar {
+width: 100%;
+
+height: 5px;
+
+overflow: hidden;
+
+border-radius: 20px;
+
+background:
+rgba(255, 255, 255, 0.08);
+}
+
+.progress-fill {
+width: 10%;
+
+height: 100%;
+
+border-radius: 20px;
+
+background:
+#008cff;
+
+transition:
+width 0.3s ease;
+}
+
+/* ==============================
+QUESTION
+============================== */
+
+#question {
+font-size: 20px;
+
+line-height: 1.4;
+
+text-align: center;
+
+margin-bottom: 22px;
+}
+
+/* ==============================
+ANSWERS
+============================== */
+
+.answers {
+display: flex;
+
+flex-direction: column;
+
+gap: 11px;
+}
+
+.answer-button {
+width: 100%;
+
+min-height: 52px;
+
+padding:
+12px
+15px;
+
+border:
+1px solid
+rgba(255, 255, 255, 0.08);
+
+border-radius: 14px;
+
+background:
+rgba(255, 255, 255, 0.055);
+
+color: #ffffff;
+
+font-size: 14px;
+
+text-align: left;
+
+cursor: pointer;
+
+transition:
+0.2s ease;
+}
+
+.answer-button:hover {
+background:
+rgba(0, 140, 255, 0.10);
+
+border-color:
+rgba(0, 140, 255, 0.30);
+}
+
+.answer-button.selected {
+background:
+rgba(0, 140, 255, 0.18);
+
+border-color:
+#008cff;
+
+box-shadow:
+0 0 18px
+rgba(0, 140, 255, 0.12);
+}
+
+/* ==============================
+NEXT BUTTON
+============================== */
+
+.next-button {
+width: 100%;
+
+min-height: 52px;
+
+margin-top: 20px;
+
+border: none;
+
+border-radius: 14px;
+
+background:
+linear-gradient(
+135deg,
+#008cff,
+#0054a6
+);
+
+color: #ffffff;
+
+font-size: 14px;
+
+font-weight: bold;
+
+cursor: pointer;
+
+transition:
+0.2s ease;
+}
+
+.next-button:hover {
+transform:
+translateY(-1px);
+}
+
+.next-button:disabled {
+opacity: 0.35;
+
+cursor: not-allowed;
+
+transform: none;
+}
+
+/* ==============================
+RESULT
+============================== */
+
+.result-area {
+width: calc(100% - 32px);
+
+max-width: 520px;
+
+margin: 25px auto 0;
+
+padding: 30px 20px;
+
+text-align: center;
+
+border-radius: 20px;
+
+background:
+rgba(255, 255, 255, 0.055);
+
+border:
+1px solid
+rgba(255, 255, 255, 0.08);
+}
+
+.result-icon {
+font-size: 45px;
+
+margin-bottom: 15px;
+}
+
+.result-area h2 {
+font-size: 22px;
+
+margin-bottom: 12px;
+}
+
+.score-number {
+font-size: 48px;
+
+font-weight: bold;
+
+color: #65c9ff;
+
+margin-bottom: 10px;
+}
+
+#resultMessage {
+color: #8fa8b8;
+
+font-size: 13px;
+
+line-height: 1.6;
+}
+
+/* ==============================
+MOBILE
+============================== */
+
+@media (max-width: 380px) {
+
+.game-intro h1 {
+font-size: 24px;
+}
+
+#question {
+font-size: 18px;
+}
+
+.game-card {
+width: calc(100% - 24px);
+}
+
+}

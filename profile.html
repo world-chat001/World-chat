@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Profile - WORLD CHAT</title>
+
+  <link rel="stylesheet" href="profile.css">
+</head>
+
+<body>
+
+  <main class="profile-page">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+      <div class="brand">
+        <span class="brand-icon">🌍</span>
+
+        <div>
+          <strong>WORLD CHAT</strong>
+          <small>MY PROFILE</small>
+        </div>
+      </div>
+
+      <button
+        class="back-button"
+        onclick="location.href='home.html'"
+      >
+        ←
+      </button>
+
+    </header>
+
+
+    <!-- PROFILE -->
+    <section class="profile-card">
+
+      <div class="profile-avatar" id="profileAvatar">
+        <span id="avatarLetter">?</span>
+      </div>
+
+      <h1 id="profileName">
+        Loading...
+      </h1>
+
+      <p id="profileEmail">
+        Loading...
+      </p>
+
+      <p
+        class="profile-status"
+        id="profileStatus"
+      >
+        Hey! I'm new to WORLD CHAT.
+      </p>
+
+
+      <!-- PROFILE INFO -->
+
+      <div class="profile-info">
+
+        <div class="info-box">
+
+          <span class="info-icon">🌍</span>
+
+          <div>
+            <small>Location</small>
+            <strong id="profileLocation">
+              Worldwide
+            </strong>
+          </div>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <span class="info-icon">👤</span>
+
+          <div>
+            <small>Member</small>
+            <strong id="memberSince">
+              WORLD CHAT
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- EDIT BUTTON -->
+
+      <button
+        class="edit-profile-btn"
+        onclick="location.href='edit-profile.html'"
+      >
+        ✏️ Edit Profile
+      </button>
+
+    </section>
+
+
+    <!-- ABOUT -->
+
+    <section class="about-card">
+
+      <p class="section-label">
+        ABOUT ME
+      </p>
+
+      <h2>
+        Bio
+      </h2>
+
+      <p id="profileBio">
+        No bio yet.
+      </p>
+
+    </section>
+
+
+    <!-- BOTTOM NAV -->
+
+    <nav class="bottom-nav">
+
+      <a
+        class="nav-item"
+        href="home.html"
+      >
+        <span>⌂</span>
+        <small>Home</small>
+      </a>
+
+
+      <a
+        class="nav-item"
+        href="discover.html"
+      >
+        <span>🌎</span>
+        <small>Discover</small>
+      </a>
+
+
+      <a
+        class="nav-item"
+        href="chats.html"
+      >
+        <span>💬</span>
+        <small>Chats</small>
+      </a>
+
+
+      <a
+        class="nav-item active"
+        href="profile.html"
+      >
+        <span>👤</span>
+        <small>Profile</small>
+      </a>
+
+    </nav>
+
+  </main>
+
+
+  <script
+    type="module"
+    src="profile.js"
+  ></script>
+
+</body>
+</html>

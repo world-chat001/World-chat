@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>WORLD CHAT</title>
+
+  <link rel="stylesheet" href="index.css">
+</head><link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#020b18">
+
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<body>
+
+  <main class="hero">
+
+    <!-- REALISTIC UNDERWATER VIDEO -->
+    <video
+      class="background-video"
+      autoplay
+      muted
+      loop
+      playsinline
+    >
+      <source src="world-chat-ocean.mp4" type="video/mp4">
+    </video>
+
+    <!-- Dark cinematic overlay -->
+    <div class="overlay"></div>
+
+    <!-- Blue underwater glow -->
+    <div class="blue-glow"></div>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <p class="eyebrow">
+        CONNECT BEYOND BORDERS
+      </p>
+
+      <h1>WORLD CHAT</h1>
+
+      <p class="tagline">
+        DIFFERENT PEOPLE • ONE WORLD • REAL CHATS
+      </p>
+
+      <p class="description">
+        Meet real people from different parts of the world
+        and discover conversations beyond your borders.
+      </p>
+
+      <div class="buttons">
+
+        <!-- CREATE ACCOUNT -->
+        <a href="register.html" class="create-btn">
+          Create Account
+        </a>
+
+        <!-- LOGIN -->
+        <a href="login.html" class="login-btn">
+          I ALREADY HAVE AN ACCOUNT
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("./Sw.js")
+        .then(() => {
+          console.log("WORLD CHAT app ready");
+        })
+        .catch((error) => {
+          console.error("Service Worker error:", error);
+        });
+    });
+  }
+</script>
+</body>
+</html>

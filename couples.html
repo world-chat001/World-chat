@@ -1,0 +1,159 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Connection Game - WORLD CHAT</title>  <link rel="stylesheet" href="couples.css">
+</head><body>  <main class="couples-page"><header class="couples-header">
+
+  <button
+    id="backBtn"
+    class="back-button"
+    type="button"
+  >
+    ←
+  </button>
+
+  <div>
+    <strong>CONNECTION GAME</strong>
+    <span>WORLD CHAT</span>
+  </div>
+
+</header>
+
+
+<section class="game-intro">
+
+  <div class="game-icon">
+    💕
+  </div>
+
+  <p class="eyebrow">
+    HOW WELL DO YOU KNOW EACH OTHER?
+  </p>
+
+  <h1>
+    Connection Game
+  </h1>
+
+  <p class="intro-text">
+    Answer the questions and see how closely your answers match.
+  </p>
+
+</section>
+
+
+<section class="game-card">
+
+  <div class="progress-area">
+
+    <span id="questionNumber">
+      Question 1 of 10
+    </span>
+
+    <div class="progress-bar">
+      <div
+        id="progressBar"
+        class="progress-fill"
+      ></div>
+    </div>
+
+  </div>
+
+
+  <div id="questionArea">
+
+    <h2 id="question">
+      What would you choose for a perfect weekend?
+    </h2>
+
+
+    <div
+      id="answers"
+      class="answers"
+    >
+
+      <button
+        class="answer-button"
+        data-answer="Movies"
+      >
+        🎬 Movies
+      </button>
+
+      <button
+        class="answer-button"
+        data-answer="Gaming"
+      >
+        🎮 Gaming
+      </button>
+
+      <button
+        class="answer-button"
+        data-answer="Travelling"
+      >
+        🌍 Travelling
+      </button>
+
+      <button
+        class="answer-button"
+        data-answer="Staying home"
+      >
+        🏠 Staying home
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <button
+    id="nextBtn"
+    class="next-button"
+    type="button"
+    disabled
+  >
+    Next Question →
+  </button>
+
+</section>
+
+
+<section
+  id="resultArea"
+  class="result-area"
+  style="display: none;"
+>
+
+  <div class="result-icon">
+    🏆
+  </div>
+
+  <p class="eyebrow">
+    YOUR RESULT
+  </p>
+
+  <h2 id="scoreText">
+    Great Match!
+  </h2>
+
+  <div
+    id="scoreNumber"
+    class="score-number"
+  >
+    0%
+  </div>
+
+  <p id="resultMessage">
+    You two have a lot in common!
+  </p>
+
+  <button
+    id="playAgainBtn"
+    class="next-button"
+    type="button"
+  >
+    🔄 Play Again
+  </button>
+
+</section>
+
+  </main>  <script src="couples.js"></script></body>
+</html>

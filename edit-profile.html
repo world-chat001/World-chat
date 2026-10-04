@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Edit Profile - WORLD CHAT</title>
+
+  <link
+    rel="stylesheet"
+    href="edit-profile.css"
+  >
+</head>
+
+<body>
+
+  <main class="edit-page">
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+      <div class="brand">
+
+        <span class="brand-icon">🌍</span>
+
+        <div>
+          <strong>WORLD CHAT</strong>
+          <small>EDIT PROFILE</small>
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="back-button"
+        onclick="window.location.href='profile.html'"
+      >
+        ←
+      </button>
+
+    </header>
+
+
+    <!-- EDIT PROFILE CARD -->
+
+    <section class="edit-card">
+
+      <p class="eyebrow">
+        YOUR WORLD CHAT PROFILE
+      </p>
+
+      <h1>
+        Edit Profile
+      </h1>
+
+      <p class="subtitle">
+        Update your profile and let people around the world know you.
+      </p>
+
+
+      <!-- PROFILE PHOTO -->
+
+      <div class="photo-section">
+
+        <div
+          class="profile-avatar"
+          id="profileAvatar"
+        >
+          <span id="avatarLetter">?</span>
+        </div>
+
+        <label
+          for="photoInput"
+          class="photo-button"
+        >
+          📷 Change Photo
+        </label>
+
+        <input
+          type="file"
+          id="photoInput"
+          accept="image/*"
+          hidden
+        >
+
+      </div>
+
+
+      <!-- FULL NAME -->
+
+      <div class="input-group">
+
+        <label for="nameInput">
+          Full Name
+        </label>
+
+        <input
+          type="text"
+          id="nameInput"
+          placeholder="Your full name"
+          maxlength="60"
+          autocomplete="name"
+        >
+
+      </div>
+
+
+      <!-- BIO -->
+
+      <div class="input-group">
+
+        <label for="bioInput">
+          Bio
+        </label>
+
+        <textarea
+          id="bioInput"
+          placeholder="Tell people something about you..."
+          maxlength="160"
+          rows="4"
+        ></textarea>
+
+        <small id="bioCount">
+          0 / 160
+        </small>
+
+      </div>
+
+
+      <!-- LOCATION -->
+
+      <div class="input-group">
+
+        <label for="locationInput">
+          Location
+        </label>
+
+        <input
+          type="text"
+          id="locationInput"
+          placeholder="e.g. Lagos, Nigeria"
+          maxlength="60"
+        >
+
+      </div>
+
+
+      <!-- STATUS -->
+
+      <div class="input-group">
+
+        <label for="statusInput">
+          Status
+        </label>
+
+        <input
+          type="text"
+          id="statusInput"
+          placeholder="Your current status"
+          maxlength="100"
+        >
+
+      </div>
+
+
+      <!-- MESSAGE -->
+
+      <div id="message"></div>
+
+
+      <!-- SAVE -->
+
+      <button
+        type="button"
+        id="saveBtn"
+        class="save-button"
+      >
+        Save Changes
+      </button>
+
+
+      <!-- CANCEL -->
+
+      <button
+        type="button"
+        class="cancel-button"
+        onclick="window.location.href='profile.html'"
+      >
+        Cancel
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <!-- FIREBASE / EDIT PROFILE LOGIC -->
+
+  <script
+    type="module"
+    src="edit-profile.js"
+  ></script>
+
+</body>
+</html>
+<button onclick="window.location.href='user-profile.html'">
+</button>
+

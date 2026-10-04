@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>WORLD CHAT AI</title>
+
+  <link rel="stylesheet" href="ai.css">
+</head>
+
+<body>
+
+  <div class="ai-app">
+
+    <!-- HEADER -->
+    <header class="ai-header">
+      <button class="back-btn" onclick="history.back()">←</button>
+
+      <div class="ai-title">
+        <div class="ai-icon">🤖</div>
+        <div>
+          <h1>WORLD CHAT AI</h1>
+          <span>AI Assistant</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- CHAT AREA -->
+    <main class="chat-area" id="chatArea">
+
+      <div class="message ai-message">
+        <div class="avatar">🤖</div>
+
+        <div class="bubble">
+          <strong>WORLD CHAT AI</strong>
+          <p>
+            Hello 👋 I'm your AI Assistant.
+            Ask me anything and I'll do my best to help you.
+          </p>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- INPUT AREA -->
+    <form class="input-area" id="aiForm">
+
+      <input
+        type="text"
+        id="aiInput"
+        placeholder="Ask WORLD CHAT AI..."
+        autocomplete="off"
+      >
+
+      <button type="submit" id="sendBtn">
+        ➤
+      </button>
+
+    </form>
+
+  </div>
+
+  <script type="module" src="ai.js"></script>
+
+</body>
+</html>

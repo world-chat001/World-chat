@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create Account - WORLD CHAT</title>
+
+  <link rel="stylesheet" href="register.css">
+</head>
+
+<body>
+
+  <main class="register-page">
+
+    <div class="background-glow"></div>
+
+    <section class="register-card">
+
+      <div class="brand">
+        <span class="brand-icon">🌍</span>
+
+        <h1>WORLD CHAT</h1>
+      </div>
+
+      <div class="heading">
+        <p class="eyebrow">JOIN THE WORLD</p>
+
+        <h2>Create your account</h2>
+
+        <p>
+          Connect with people from different parts of the world.
+        </p>
+      </div>
+
+      <form id="registerForm">
+
+        <div class="input-group">
+          <label for="name">Full name</label>
+
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter your name"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email address</label>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Create a password"
+            autocomplete="new-password"
+            required
+          >
+        </div>
+
+        <div class="input-group">
+          <label for="confirmPassword">Confirm password</label>
+
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm your password"
+            autocomplete="new-password"
+            required
+          >
+        </div>
+
+        <label class="terms">
+          <input type="checkbox" id="terms" required>
+
+          <span>
+            I agree to the WORLD CHAT terms and privacy policy.
+          </span>
+        </label>
+
+        <button type="submit" class="create-account">
+          CREATE ACCOUNT
+        </button>
+
+        <p id="message"></p>
+
+      </form>
+
+      <div class="login-link">
+        <span>Already have an account?</span>
+
+        <a href="login.html">Log in</a>
+      </div>
+
+    </section>
+
+  </main>
+<script type="module" src="register.js"></script>
+</body>
+</html>

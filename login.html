@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login - WORLD CHAT</title>
+
+  <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+  <main class="login-page">
+
+    <div class="background-glow"></div>
+
+    <section class="login-card">
+
+      <div class="brand">
+        <span class="brand-icon">🌍</span>
+        <h1>WORLD CHAT</h1>
+      </div>
+
+      <div class="heading">
+        <p class="eyebrow">WELCOME BACK</p>
+
+        <h2>Log in</h2>
+
+        <p>
+          Continue your conversations with the world.
+        </p>
+      </div>
+
+      <form id="loginForm">
+
+        <div class="input-group">
+          <label for="email">Email address</label>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="input-group">
+          <div class="password-heading">
+            <label for="password">Password</label>
+
+            <a href="#" id="forgotPassword">
+              Forgot password?
+            </a>
+          </div>
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+
+        <button type="submit" class="login-button">
+          LOG IN
+        </button>
+
+        <p id="message"></p>
+
+      </form>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <div class="create-link">
+        <span>Don't have an account?</span>
+
+        <a href="register.html">
+          Create account
+        </a>
+      </div>
+
+    </section>
+
+  </main>
+<script type="module" src="login.js"></script>
+</body>
+</html>

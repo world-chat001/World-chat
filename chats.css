@@ -1,0 +1,461 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #03111f;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.chats-page {
+  min-height: 100vh;
+  padding-bottom: 82px;
+
+  background:
+    linear-gradient(
+      rgba(1, 12, 24, 0.70),
+      rgba(1, 12, 24, 0.88)
+    ),
+    url("chats-bg.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar {
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 16px;
+
+  background: rgba(2, 13, 25, 0.82);
+
+  backdrop-filter: blur(14px);
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  font-size: 30px;
+}
+
+.brand strong {
+  display: block;
+
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.brand small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #70caff;
+
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.back-button {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: #ffffff;
+
+  font-size: 25px;
+
+  cursor: pointer;
+}
+
+.back-button:active {
+  transform: scale(0.92);
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+.chats-intro {
+  padding: 30px 18px 20px;
+}
+
+.eyebrow {
+  color: #54c7ff;
+
+  font-size: 10px;
+  font-weight: bold;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 8px;
+}
+
+.chats-intro h1 {
+  font-size: 30px;
+
+  margin-bottom: 8px;
+}
+
+.chats-intro > p:last-child {
+  color: #a4b6c5;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  max-width: 360px;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-area {
+  padding: 0 16px 18px;
+}
+
+.search-box {
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 0 15px;
+
+  border-radius: 25px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.09);
+
+  backdrop-filter: blur(12px);
+}
+
+.search-box span {
+  font-size: 16px;
+}
+
+.search-box input {
+  flex: 1;
+
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-size: 14px;
+}
+
+.search-box input::placeholder {
+  color: #8195a6;
+}
+
+
+/* =========================
+   CONVERSATION LIST
+========================= */
+
+.conversation-section {
+  padding: 0 12px;
+}
+
+.conversation {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 14px 10px;
+
+  margin-bottom: 6px;
+
+  border-radius: 17px;
+
+  background:
+    rgba(7, 28, 45, 0.76);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(10px);
+
+  cursor: pointer;
+
+  transition: transform 0.15s ease;
+}
+
+.conversation:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================
+   AVATAR
+========================= */
+
+.avatar {
+  width: 52px;
+  height: 52px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #087cff,
+      #00c6ff
+    );
+
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+/* =========================
+   CONVERSATION CONTENT
+========================= */
+
+.conversation-main {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.conversation-top {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.conversation-name {
+  min-width: 0;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+
+  font-size: 15px;
+}
+
+.conversation-time {
+  flex-shrink: 0;
+
+  color: #7f94a5;
+
+  font-size: 10px;
+}
+
+.conversation-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  margin-top: 6px;
+}
+
+.last-message {
+  min-width: 0;
+
+  color: #91a5b5;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =========================
+   UNREAD BADGE
+========================= */
+
+.unread {
+  min-width: 20px;
+  height: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 6px;
+
+  border-radius: 20px;
+
+  background: #008cff;
+
+  color: #ffffff;
+
+  font-size: 10px;
+  font-weight: bold;
+}
+
+
+/* =========================
+   LOADING / EMPTY
+========================= */
+
+.loading {
+  padding: 65px 20px;
+
+  text-align: center;
+
+  color: #8da4b6;
+}
+
+.loading span {
+  display: block;
+
+  font-size: 42px;
+
+  margin-bottom: 12px;
+}
+
+.loading p {
+  font-size: 13px;
+}
+
+
+/* =========================
+   BOTTOM NAVIGATION
+========================= */
+
+.bottom-nav {
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  background:
+    rgba(2, 13, 25, 0.94);
+
+  backdrop-filter: blur(18px);
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  z-index: 10;
+}
+
+.nav-item {
+  width: 25%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 4px;
+
+  color: #708797;
+
+  text-decoration: none;
+
+  font-size: 19px;
+}
+
+.nav-item small {
+  font-size: 10px;
+}
+
+.nav-item.active {
+  color: #42bdff;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+  .chats-intro h1 {
+    font-size: 27px;
+  }
+
+  .conversation {
+    padding: 13px 8px;
+  }
+}.notification-dot {
+  width: 10px;
+  height: 10px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #ff1744;
+
+  box-shadow:
+    0 0 8px rgba(255, 23, 68, 0.7);
+
+  margin-left: 8px;
+}
