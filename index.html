@@ -6,13 +6,17 @@
 
   <title>WORLD CHAT</title>
 
+  <!-- WORLD CHAT PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#020b18">
+
+  <!-- WORLD CHAT ICON -->
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- MAIN STYLES -->
   <link rel="stylesheet" href="index.css">
-</head><link rel="manifest" href="manifest.json">
-
-<meta name="theme-color" content="#020b18">
-
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+</head>
 
 <body>
 
@@ -70,19 +74,25 @@
     </section>
 
   </main>
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("./Sw.js")
-        .then(() => {
-          console.log("WORLD CHAT app ready");
-        })
-        .catch((error) => {
-          console.error("Service Worker error:", error);
-        });
-    });
-  }
-</script>
+
+  <!-- SERVICE WORKER -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./Sw.js", {
+            scope: "./"
+          })
+          .then((registration) => {
+            console.log("WORLD CHAT app ready");
+            console.log("Service Worker scope:", registration.scope);
+          })
+          .catch((error) => {
+            console.error("Service Worker error:", error);
+          });
+      });
+    }
+  </script>
+
 </body>
 </html>
