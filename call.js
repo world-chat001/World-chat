@@ -1,200 +1,138 @@
 import { auth, db } from "./firebase.js";
 
 import {
-onAuthStateChanged
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 import {
-doc,
-setDoc,
-updateDoc,
-onSnapshot,
-addDoc,
-collection,
-arrayUnion,
-serverTimestamp
+  doc,
+  setDoc,
+  updateDoc,
+  onSnapshot,
+  addDoc,
+  collection,
+  arrayUnion,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-const localVideo =
-document.getElementById("localVideo");
+const localVideo = document.getElementById("localVideo");
+const remoteVideo = document.getElementById("remoteVideo");
+const muteBtn = document.getElementById("muteBtn");
+const cameraBtn = document.getElementById("cameraBtn");
+const endBtn = document.getElementById("endBtn");
+const closeBtn = document.getElementById("closeBtn");
+const callStatus = document.getElementById("callStatus");
+const personName = document.getElementById("personName");
+const callType = document.getElementById("callType");
 
-const remoteVideo =
-document.getElementById("remoteVideo");
+const params = new URLSearchParams(window.location.search);
 
-const muteBtn =
-document.getElementById("muteBtn");
+const type = params.get("type") || "video";
+const otherUserId = params.get("uid") || "";
+const name = params.get("name") || "WORLD CHAT USER";
 
-const cameraBtn =
-document.getElementById("cameraBtn");
-
-const endBtn =
-document.getElementById("endBtn");
-
-const closeBtn =
-document.getElementById("closeBtn");
-
-const callStatus =
-document.getElementById("callStatus");
-
-const personName =
-document.getElementById("personName");
-
-const callType =
-document.getElementById("callType");
-
-const params =
-new URLSearchParams(
-window.location.search
-);
-
-const type =
-params.get("type") || "video";
-
-const otherUserId =
-params.get("uid") || "";
-
-const name =
-params.get("name") ||
-"WORLD CHAT USER";
-
-let callId =
-params.get("callId") || "";
+let callId = params.get("callId") || "";
 
 let currentUser = null;
-
 let localStream = null;
-
 let peerConnection = null;
-
 let callRef = null;
-
 let unsubscribeCall = null;
 
-let isMuted = false;
-
-let isCameraOff = false;
-
 let isCaller = false;
-
 let callEnded = false;
-
-let missedNotificationSent = false;
+let isMuted = false;
+let isCameraOff = false;
 
 let callTimeout = null;
 
-let processedCallerCandidates = [];
+let callerCandidates = [];
+let receiverCandidates = [];
 
-let processedReceiverCandidates = [];
+let remoteDescriptionReady = false;
 
 const rtcConfiguration = {
-
-iceServers: [
-{
-urls:
-"stun:stun.l.google.com:19302"
-}
-]
-
+  iceServers: [
+    {
+      urls: "stun:stun.l.google.com:19302"
+    },
+    {
+      urls: "stun:stun1.l.google.com:19302"
+    }
+  ]
 };
 
-personName.textContent =
-name;
+personName.textContent = name;
 
 if (type === "voice") {
+  callType.textContent = "VOICE CALL";
 
-callType.textContent =
-"VOICE CALL";
-
-cameraBtn.classList.add(
-"hidden"
-);
-
-localVideo.classList.add(
-"hidden"
-);
-
-remoteVideo.classList.add(
-"hidden"
-);
-
+  cameraBtn.classList.add("hidden");
+  localVideo.classList.add("hidden");
+  remoteVideo.classList.add("hidden");
 } else {
-
-callType.textContent =
-"VIDEO CALL";
-
+  callType.textContent = "VIDEO CALL";
 }
 
 /* ==============================
-LOCAL CAMERA / MICROPHONE
+LOCAL MEDIA
 ============================== */
 
 async function startLocalMedia() {
 
-const constraints =
-type === "voice"
-? {
-audio: true,
-video: false
-}
-: {
-audio: true,
-video: true
-};
+  const constraints =
+    type === "voice"
+      ? {
+          audio: true,
+          video: false
+        }
+      : {
+          audio: true,
+          video: true
+        };
 
-try {
+  try {
 
-localStream =
-  await navigator.mediaDevices
-    .getUserMedia(
-      constraints
-    );
+    localStream =
+      await navigator.mediaDevices.getUserMedia(
+        constraints
+      );
 
+    if (type === "video") {
+      localVideo.srcObject = localStream;
 
-if (type === "video") {
+      try {
+        await localVideo.play();
+      } catch (error) {
+        console.log("LOCAL VIDEO PLAY:", error);
+      }
+    }
 
-  localVideo.srcObject =
-    localStream;
+    return true;
 
-}
+  } catch (error) {
 
+    console.error("MEDIA ERROR:", error);
 
-return true;
+    if (error.name === "NotAllowedError") {
 
-} catch (error) {
+      callStatus.textContent =
+        "Camera or microphone permission was denied.";
 
-console.error(
-  "MEDIA ERROR:",
-  error
-);
+    } else if (error.name === "NotFoundError") {
 
+      callStatus.textContent =
+        "Camera or microphone was not found.";
 
-if (
-  error.name ===
-  "NotAllowedError"
-) {
+    } else {
 
-  callStatus.textContent =
-    "Camera or microphone permission was denied.";
+      callStatus.textContent =
+        "Unable to access camera or microphone.";
 
-} else if (
-  error.name ===
-  "NotFoundError"
-) {
+    }
 
-  callStatus.textContent =
-    "Camera or microphone was not found.";
-
-} else {
-
-  callStatus.textContent =
-    "Unable to access camera or microphone.";
-
-}
-
-
-return false;
-
-}
+    return false;
+  }
 }
 
 /* ==============================
@@ -203,157 +141,216 @@ PEER CONNECTION
 
 function createPeerConnection() {
 
-peerConnection =
-new RTCPeerConnection(
-rtcConfiguration
-);
+  if (peerConnection) {
+    return peerConnection;
+  }
 
-if (localStream) {
-
-localStream
-  .getTracks()
-  .forEach((track) => {
-
-    peerConnection.addTrack(
-      track,
-      localStream
+  peerConnection =
+    new RTCPeerConnection(
+      rtcConfiguration
     );
 
-  });
+  if (localStream) {
 
+    localStream
+      .getTracks()
+      .forEach((track) => {
+
+        peerConnection.addTrack(
+          track,
+          localStream
+        );
+
+      });
+
+  }
+
+  peerConnection.ontrack = (event) => {
+
+    console.log("REMOTE TRACK RECEIVED");
+
+    if (
+      event.streams &&
+      event.streams[0]
+    ) {
+
+      remoteVideo.srcObject =
+        event.streams[0];
+
+      remoteVideo
+        .play()
+        .catch(() => {});
+
+      callStatus.textContent =
+        "Connected";
+
+    }
+
+  };
+
+  peerConnection.onicecandidate =
+    async (event) => {
+
+      if (
+        !event.candidate ||
+        !callRef
+      ) {
+        return;
+      }
+
+      const candidate =
+        event.candidate.toJSON();
+
+      try {
+
+        if (isCaller) {
+
+          await updateDoc(
+            callRef,
+            {
+              callerCandidates:
+                arrayUnion(candidate)
+            }
+          );
+
+        } else {
+
+          await updateDoc(
+            callRef,
+            {
+              receiverCandidates:
+                arrayUnion(candidate)
+            }
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "ICE SAVE ERROR:",
+          error
+        );
+
+      }
+
+    };
+
+  peerConnection.onconnectionstatechange =
+    () => {
+
+      const state =
+        peerConnection.connectionState;
+
+      console.log(
+        "WEBRTC CONNECTION:",
+        state
+      );
+
+      if (state === "connecting") {
+
+        callStatus.textContent =
+          "Connecting...";
+
+      }
+
+      if (state === "connected") {
+
+        callStatus.textContent =
+          "Connected";
+
+        stopCallTimeout();
+
+      }
+
+      if (state === "disconnected") {
+
+        callStatus.textContent =
+          "Connection interrupted.";
+
+      }
+
+      if (state === "failed") {
+
+        callStatus.textContent =
+          "Call connection failed.";
+
+      }
+
+      if (state === "closed") {
+
+        callStatus.textContent =
+          "Call ended.";
+
+      }
+
+    };
+
+  return peerConnection;
 }
 
-peerConnection.ontrack =
-(event) => {
+/* ==============================
+ADD WAITING ICE CANDIDATES
+============================== */
+
+async function addPendingCandidates() {
 
   if (
-    event.streams &&
-    event.streams[0]
-  ) {
-
-    remoteVideo.srcObject =
-      event.streams[0];
-
-    remoteVideo
-      .play()
-      .catch(() => {});
-
-  }
-
-};
-
-peerConnection.onconnectionstatechange =
-() => {
-
-  console.log(
-    "WEBRTC CONNECTION:",
-    peerConnection.connectionState
-  );
-
-
-  if (
-    peerConnection.connectionState ===
-    "connected"
-  ) {
-
-    callStatus.textContent =
-      "Connected";
-
-    stopCallTimeout();
-
-  }
-
-
-  if (
-    peerConnection.connectionState ===
-    "connecting"
-  ) {
-
-    callStatus.textContent =
-      "Connecting...";
-
-  }
-
-
-  if (
-    peerConnection.connectionState ===
-    "disconnected"
-  ) {
-
-    callStatus.textContent =
-      "Connection interrupted.";
-
-  }
-
-
-  if (
-    peerConnection.connectionState ===
-    "failed"
-  ) {
-
-    callStatus.textContent =
-      "Call connection failed.";
-
-  }
-
-};
-
-peerConnection.onicecandidate =
-async (event) => {
-
-  if (
-    !event.candidate ||
-    !callRef ||
-    !currentUser
+    !peerConnection ||
+    !remoteDescriptionReady
   ) {
     return;
   }
 
+  if (isCaller) {
 
-  const candidate =
-    event.candidate.toJSON();
+    while (receiverCandidates.length) {
 
+      const candidate =
+        receiverCandidates.shift();
 
-  try {
+      try {
 
-    if (isCaller) {
+        await peerConnection.addIceCandidate(
+          new RTCIceCandidate(candidate)
+        );
 
-      await updateDoc(
-        callRef,
-        {
-          callerCandidates:
-            arrayUnion(
-              candidate
-            )
-        }
-      );
+      } catch (error) {
 
-    } else {
+        console.error(
+          "RECEIVER ICE ERROR:",
+          error
+        );
 
-      await updateDoc(
-        callRef,
-        {
-          receiverCandidates:
-            arrayUnion(
-              candidate
-            )
-        }
-      );
+      }
 
     }
 
-  } catch (error) {
+  } else {
 
-    console.error(
-      "ICE SAVE ERROR:",
-      error
-    );
+    while (callerCandidates.length) {
+
+      const candidate =
+        callerCandidates.shift();
+
+      try {
+
+        await peerConnection.addIceCandidate(
+          new RTCIceCandidate(candidate)
+        );
+
+      } catch (error) {
+
+        console.error(
+          "CALLER ICE ERROR:",
+          error
+        );
+
+      }
+
+    }
 
   }
-
-};
-
-return peerConnection;
 }
 
 /* ==============================
@@ -362,177 +359,194 @@ CALLER
 
 async function startCallerCall() {
 
-if (!callId) {
+  callRef =
+    doc(
+      db,
+      "Calls",
+      callId
+    );
 
-callStatus.textContent =
-  "Call ID is missing.";
+  createPeerConnection();
 
-return;
+  try {
 
-}
+    const offer =
+      await peerConnection.createOffer();
 
-callRef =
-doc(
-db,
-"Calls",
-callId
-);
+    await peerConnection.setLocalDescription(
+      offer
+    );
 
-createPeerConnection();
+    await updateDoc(
+      callRef,
+      {
+        offer: {
+          type: offer.type,
+          sdp: offer.sdp
+        }
+      }
+    );
 
-const offer =
-await peerConnection
-.createOffer();
+    callStatus.textContent =
+      "Ringing...";
 
-await peerConnection
-.setLocalDescription(
-offer
-);
+    startCallTimeout();
 
-await updateDoc(
-callRef,
-{
-offer: {
-type:
-offer.type,
-sdp:
-offer.sdp
-}
-}
-);
+    unsubscribeCall =
+      onSnapshot(
+        callRef,
+        async (snapshot) => {
 
-callStatus.textContent =
-"Ringing...";
+          if (!snapshot.exists()) {
+            return;
+          }
 
-startCallTimeout();
+          const data =
+            snapshot.data();
 
-unsubscribeCall =
-onSnapshot(
-callRef,
-async (snapshot) => {
+          /* ANSWER */
 
-    if (
-      !snapshot.exists()
-    ) {
-      return;
-    }
+          if (
+            data.answer &&
+            !remoteDescriptionReady
+          ) {
 
+            try {
 
-    const data =
-      snapshot.data();
+              await peerConnection.setRemoteDescription(
+                new RTCSessionDescription(
+                  data.answer
+                )
+              );
 
+              remoteDescriptionReady =
+                true;
 
-    if (
-      data.answer &&
-      !peerConnection
-        .currentRemoteDescription
-    ) {
+              callStatus.textContent =
+                "Connecting...";
 
-      try {
+              await addPendingCandidates();
 
-        await peerConnection
-          .setRemoteDescription(
-            new RTCSessionDescription(
-              data.answer
+            } catch (error) {
+
+              console.error(
+                "REMOTE ANSWER ERROR:",
+                error
+              );
+
+            }
+
+          }
+
+          /* RECEIVER ICE */
+
+          if (
+            Array.isArray(
+              data.receiverCandidates
             )
-          );
+          ) {
 
+            for (
+              const candidate
+              of data.receiverCandidates
+            ) {
 
-        callStatus.textContent =
-          "Connecting...";
+              const alreadyQueued =
+                receiverCandidates.some(
+                  (item) =>
+                    JSON.stringify(item) ===
+                    JSON.stringify(candidate)
+                );
 
-      } catch (error) {
+              if (
+                alreadyQueued
+              ) {
+                continue;
+              }
 
-        console.error(
-          "ANSWER ERROR:",
-          error
-        );
+              if (
+                remoteDescriptionReady
+              ) {
 
-      }
+                try {
 
-    }
+                  await peerConnection.addIceCandidate(
+                    new RTCIceCandidate(
+                      candidate
+                    )
+                  );
 
+                } catch (error) {
 
-    if (
-      Array.isArray(
-        data.receiverCandidates
-      )
-    ) {
+                  console.error(
+                    "RECEIVER ICE ERROR:",
+                    error
+                  );
 
-      for (
-        const candidate
-        of data.receiverCandidates
-      ) {
+                }
 
-        const key =
-          JSON.stringify(
-            candidate
-          );
+              } else {
 
+                receiverCandidates.push(
+                  candidate
+                );
 
-        if (
-          processedReceiverCandidates
-            .includes(key)
-        ) {
-          continue;
+              }
+
+            }
+
+          }
+
+          if (
+            data.status ===
+            "declined"
+          ) {
+
+            stopCallTimeout();
+
+            callStatus.textContent =
+              "Call declined.";
+
+          }
+
+          if (
+            data.status ===
+            "ended"
+          ) {
+
+            stopCallTimeout();
+
+            callStatus.textContent =
+              "Call ended.";
+
+          }
+
+          if (
+            data.status ===
+            "missed"
+          ) {
+
+            stopCallTimeout();
+
+            callStatus.textContent =
+              "No answer.";
+
+          }
+
         }
+      );
 
+  } catch (error) {
 
-        processedReceiverCandidates
-          .push(key);
+    console.error(
+      "CALLER ERROR:",
+      error
+    );
 
-
-        try {
-
-          await peerConnection
-            .addIceCandidate(
-              new RTCIceCandidate(
-                candidate
-              )
-            );
-
-        } catch (error) {
-
-          console.error(
-            "RECEIVER ICE ERROR:",
-            error
-          );
-
-        }
-
-      }
-
-    }
-
-
-    if (
-      data.status ===
-      "declined"
-    ) {
-
-      stopCallTimeout();
-
-      callStatus.textContent =
-        "Call declined.";
-
-    }
-
-
-    if (
-      data.status ===
-      "missed"
-    ) {
-
-      stopCallTimeout();
-
-      callStatus.textContent =
-        "No answer.";
-
-    }
+    callStatus.textContent =
+      "Unable to start call.";
 
   }
-);
-
 }
 
 /* ==============================
@@ -541,194 +555,531 @@ RECEIVER
 
 async function startReceiverCall() {
 
-if (!callId) {
+  callRef =
+    doc(
+      db,
+      "Calls",
+      callId
+    );
 
-callStatus.textContent =
-  "Call ID is missing.";
+  createPeerConnection();
 
-return;
+  callStatus.textContent =
+    "Connecting...";
 
-}
+  unsubscribeCall =
+    onSnapshot(
+      callRef,
+      async (snapshot) => {
 
-callRef =
-doc(
-db,
-"Calls",
-callId
-);
+        if (!snapshot.exists()) {
 
-createPeerConnection();
+          callStatus.textContent =
+            "Call no longer exists.";
 
-callStatus.textContent =
-"Connecting...";
-
-unsubscribeCall =
-onSnapshot(
-callRef,
-async (snapshot) => {
-
-    if (
-      !snapshot.exists()
-    ) {
-      return;
-    }
-
-
-    const data =
-      snapshot.data();
-
-
-    if (
-      data.offer &&
-      !peerConnection
-        .currentRemoteDescription
-    ) {
-
-      try {
-
-        await peerConnection
-          .setRemoteDescription(
-            new RTCSessionDescription(
-              data.offer
-            )
-          );
-
-
-        const answer =
-          await peerConnection
-            .createAnswer();
-
-
-        await peerConnection
-          .setLocalDescription(
-            answer
-          );
-
-
-        await updateDoc(
-          callRef,
-          {
-            answer: {
-              type:
-                answer.type,
-              sdp:
-                answer.sdp
-            },
-
-            status:
-              "accepted"
-          }
-        );
-
-
-        callStatus.textContent =
-          "Connecting...";
-
-      } catch (error) {
-
-        console.error(
-          "ANSWER CREATION ERROR:",
-          error
-        );
-
-      }
-
-    }
-
-
-    if (
-      Array.isArray(
-        data.callerCandidates
-      )
-    ) {
-
-      for (
-        const candidate
-        of data.callerCandidates
-      ) {
-
-        const key =
-          JSON.stringify(
-            candidate
-          );
-
-
-        if (
-          processedCallerCandidates
-            .includes(key)
-        ) {
-          continue;
+          return;
         }
 
+        const data =
+          snapshot.data();
 
-        processedCallerCandidates
-          .push(key);
+        /* OFFER */
 
+        if (
+          data.offer &&
+          !remoteDescriptionReady
+        ) {
+
+          try {
+
+            await peerConnection.setRemoteDescription(
+              new RTCSessionDescription(
+                data.offer
+              )
+            );
+
+            remoteDescriptionReady =
+              true;
+
+            const answer =
+              await peerConnection.createAnswer();
+
+            await peerConnection.setLocalDescription(
+              answer
+            );
+
+            await updateDoc(
+              callRef,
+              {
+                answer: {
+                  type: answer.type,
+                  sdp: answer.sdp
+                },
+
+                status:
+                  "accepted"
+              }
+            );
+
+            callStatus.textContent =
+              "Connecting...";
+
+            await addPendingCandidates();
+
+          } catch (error) {
+
+            console.error(
+              "ANSWER ERROR:",
+              error
+            );
+
+            callStatus.textContent =
+              "Unable to answer call.";
+
+          }
+
+        }
+
+        /* CALLER ICE */
+
+        if (
+          Array.isArray(
+            data.callerCandidates
+          )
+        ) {
+
+          for (
+            const candidate
+            of data.callerCandidates
+          ) {
+
+            const alreadyQueued =
+              callerCandidates.some(
+                (item) =>
+                  JSON.stringify(item) ===
+                  JSON.stringify(candidate)
+              );
+
+            if (
+              alreadyQueued
+            ) {
+              continue;
+            }
+
+            if (
+              remoteDescriptionReady
+            ) {
+
+              try {
+
+                await peerConnection.addIceCandidate(
+                  new RTCIceCandidate(
+                    candidate
+                  )
+                );
+
+              } catch (error) {
+
+                console.error(
+                  "CALLER ICE ERROR:",
+                  error
+                );
+
+              }
+
+            } else {
+
+              callerCandidates.push(
+                candidate
+              );
+
+            }
+
+          }
+
+        }
+
+        if (
+          data.status ===
+          "ended"
+        ) {
+
+          callStatus.textContent =
+            "Call ended.";
+
+        }
+
+      }
+    );
+}
+
+/* ==============================
+CALL TIMEOUT
+============================== */
+
+function startCallTimeout() {
+
+  stopCallTimeout();
+
+  callTimeout =
+    setTimeout(
+      async () => {
+
+        if (
+          callEnded ||
+          !callRef ||
+          !isCaller
+        ) {
+          return;
+        }
 
         try {
 
-          await peerConnection
-            .addIceCandidate(
-              new RTCIceCandidate(
-                candidate
-              )
-            );
+          await addDoc(
+            collection(
+              db,
+              "Notifications",
+              otherUserId,
+              "items"
+            ),
+            {
+              type:
+                "missed_call",
+
+              callType:
+                type,
+
+              callerId:
+                currentUser.uid,
+
+              callerName:
+                currentUser.displayName ||
+                "WORLD CHAT USER",
+
+              receiverId:
+                otherUserId,
+
+              callId:
+                callId,
+
+              read:
+                false,
+
+              createdAt:
+                serverTimestamp()
+            }
+          );
+
+          await updateDoc(
+            callRef,
+            {
+              status:
+                "missed"
+            }
+          );
+
+          callStatus.textContent =
+            "No answer.";
 
         } catch (error) {
 
           console.error(
-            "CALLER ICE ERROR:",
+            "MISSED CALL ERROR:",
             error
           );
 
         }
 
-      }
+      },
+      30000
+    );
+}
 
-    }
+function stopCallTimeout() {
+
+  if (callTimeout) {
+
+    clearTimeout(
+      callTimeout
+    );
+
+    callTimeout = null;
 
   }
-);
 
 }
 
 /* ==============================
-MISSED CALL TIMER
+MUTE
 ============================== */
 
-function startCallTimeout() {
+muteBtn.addEventListener(
+  "click",
+  () => {
 
-stopCallTimeout();
-
-callTimeout =
-setTimeout(
-async () => {
-
-    if (
-      callEnded ||
-      !callRef ||
-      !isCaller
-    ) {
+    if (!localStream) {
       return;
     }
 
+    localStream
+      .getAudioTracks()
+      .forEach((track) => {
+
+        track.enabled =
+          !track.enabled;
+
+        isMuted =
+          !track.enabled;
+
+      });
+
+    muteBtn.textContent =
+      isMuted
+        ? "🔇"
+        : "🎙️";
+
+  }
+);
+
+/* ==============================
+CAMERA
+============================== */
+
+cameraBtn.addEventListener(
+  "click",
+  () => {
+
+    if (!localStream) {
+      return;
+    }
+
+    localStream
+      .getVideoTracks()
+      .forEach((track) => {
+
+        track.enabled =
+          !track.enabled;
+
+        isCameraOff =
+          !track.enabled;
+
+      });
+
+    cameraBtn.textContent =
+      isCameraOff
+        ? "🚫"
+        : "📹";
+
+  }
+);
+
+/* ==============================
+END CALL
+============================== */
+
+async function endCall() {
+
+  if (callEnded) {
+    return;
+  }
+
+  callEnded = true;
+
+  stopCallTimeout();
+
+  try {
+
+    if (
+      callRef &&
+      currentUser
+    ) {
+
+      await updateDoc(
+        callRef,
+        {
+          status:
+            "ended"
+        }
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "END CALL ERROR:",
+      error
+    );
+
+  }
+
+  if (unsubscribeCall) {
+
+    unsubscribeCall();
+
+    unsubscribeCall =
+      null;
+
+  }
+
+  if (peerConnection) {
+
+    peerConnection.close();
+
+    peerConnection =
+      null;
+
+  }
+
+  if (localStream) {
+
+    localStream
+      .getTracks()
+      .forEach(
+        (track) =>
+          track.stop()
+      );
+
+    localStream =
+      null;
+
+  }
+
+  window.history.back();
+}
+
+endBtn.addEventListener(
+  "click",
+  endCall
+);
+
+closeBtn.addEventListener(
+  "click",
+  endCall
+);
+
+/* ==============================
+AUTH + START CALL
+============================== */
+
+onAuthStateChanged(
+  auth,
+  async (user) => {
+
+    if (!user) {
+
+      window.location.href =
+        "login.html";
+
+      return;
+
+    }
+
+    currentUser =
+      user;
+
+    console.log(
+      "WORLD CHAT CALL USER:",
+      user.uid
+    );
+
+    const mediaReady =
+      await startLocalMedia();
+
+    if (!mediaReady) {
+      return;
+    }
+
+    /*
+      CALL RECEIVER
+    */
+
+    if (callId) {
+
+      isCaller =
+        false;
+
+      await startReceiverCall();
+
+      return;
+    }
+
+    /*
+      CALLER
+    */
+
+    if (!otherUserId) {
+
+      callStatus.textContent =
+        "No user selected.";
+
+      return;
+    }
+
+    isCaller =
+      true;
+
+    callId =
+      currentUser.uid +
+      "_" +
+      otherUserId +
+      "_" +
+      Date.now();
+
+    callRef =
+      doc(
+        db,
+        "Calls",
+        callId
+      );
 
     try {
 
-      const notificationRef =
+      await setDoc(
+        callRef,
+        {
+          callerId:
+            currentUser.uid,
+
+          receiverId:
+            otherUserId,
+
+          callerName:
+            currentUser.displayName ||
+            "WORLD CHAT USER",
+
+          type:
+            type,
+
+          status:
+            "ringing",
+
+          callerCandidates:
+            [],
+
+          receiverCandidates:
+            [],
+
+          createdAt:
+            serverTimestamp()
+        }
+      );
+
+      /*
+        CREATE INCOMING CALL
+        NOTIFICATION
+      */
+
+      await addDoc(
         collection(
           db,
           "Notifications",
           otherUserId,
           "items"
-        );
-
-
-      await addDoc(
-        notificationRef,
+        ),
         {
           type:
-            "missed_call",
+            "incoming_call",
 
           callType:
             type,
@@ -738,7 +1089,6 @@ async () => {
 
           callerName:
             currentUser.displayName ||
-            name ||
             "WORLD CHAT USER",
 
           receiverId:
@@ -755,359 +1105,35 @@ async () => {
         }
       );
 
+      const newURL =
+        "call.html?type=" +
+        encodeURIComponent(type) +
+        "&uid=" +
+        encodeURIComponent(otherUserId) +
+        "&name=" +
+        encodeURIComponent(name) +
+        "&callId=" +
+        encodeURIComponent(callId);
 
-      missedNotificationSent =
-        true;
-
-
-      await updateDoc(
-        callRef,
-        {
-          status:
-            "missed"
-        }
+      window.history.replaceState(
+        {},
+        "",
+        newURL
       );
 
-
-      callStatus.textContent =
-        "No answer.";
+      await startCallerCall();
 
     } catch (error) {
 
       console.error(
-        "MISSED CALL ERROR:",
+        "START CALL ERROR:",
         error
       );
 
+      callStatus.textContent =
+        "Unable to start call.";
+
     }
 
-  },
-  30000
-);
-
-}
-
-function stopCallTimeout() {
-
-if (callTimeout) {
-
-clearTimeout(
-  callTimeout
-);
-
-callTimeout = null;
-
-}
-
-}
-
-/* ==============================
-MUTE
-============================== */
-
-muteBtn.addEventListener(
-"click",
-() => {
-
-if (!localStream) {
-  return;
-}
-
-
-localStream
-  .getAudioTracks()
-  .forEach((track) => {
-
-    track.enabled =
-      !track.enabled;
-
-    isMuted =
-      !track.enabled;
-
-  });
-
-
-muteBtn.textContent =
-  isMuted
-    ? "🔇"
-    : "🎙️";
-
-}
-);
-
-/* ==============================
-CAMERA
-============================== */
-
-cameraBtn.addEventListener(
-"click",
-() => {
-
-if (!localStream) {
-  return;
-}
-
-
-localStream
-  .getVideoTracks()
-  .forEach((track) => {
-
-    track.enabled =
-      !track.enabled;
-
-    isCameraOff =
-      !track.enabled;
-
-  });
-
-
-cameraBtn.textContent =
-  isCameraOff
-    ? "🚫"
-    : "📹";
-
-}
-);
-
-/* ==============================
-END CALL
-============================== */
-
-async function endCall() {
-
-if (callEnded) {
-return;
-}
-
-callEnded = true;
-
-stopCallTimeout();
-
-try {
-
-if (
-  callRef &&
-  currentUser
-) {
-
-  await updateDoc(
-    callRef,
-    {
-      status:
-        "ended"
-    }
-  );
-
-}
-
-} catch (error) {
-
-console.error(
-  "END CALL UPDATE ERROR:",
-  error
-);
-
-}
-
-if (unsubscribeCall) {
-
-unsubscribeCall();
-
-unsubscribeCall =
-  null;
-
-}
-
-if (peerConnection) {
-
-peerConnection.close();
-
-peerConnection =
-  null;
-
-}
-
-if (localStream) {
-
-localStream
-  .getTracks()
-  .forEach(
-    (track) =>
-      track.stop()
-  );
-
-localStream =
-  null;
-
-}
-
-window.history.back();
-
-}
-
-endBtn.addEventListener(
-"click",
-endCall
-);
-
-closeBtn.addEventListener(
-"click",
-endCall
-);
-
-/* ==============================
-AUTH
-============================== */
-
-onAuthStateChanged(
-auth,
-async (user) => {
-
-if (!user) {
-
-  window.location.href =
-    "login.html";
-
-  return;
-
-}
-
-
-currentUser =
-  user;
-
-
-console.log(
-  "WORLD CHAT CALL USER:",
-  user.uid
-);
-
-
-const mediaReady =
-  await startLocalMedia();
-
-
-if (!mediaReady) {
-  return;
-}
-
-
-/*
-  If callId already exists,
-  this user is receiving
-  an existing call.
-*/
-
-if (callId) {
-
-  isCaller = false;
-
-  await startReceiverCall();
-
-  return;
-
-}
-
-
-/*
-  No callId means this
-  user is starting a call.
-*/
-
-if (!otherUserId) {
-
-  callStatus.textContent =
-    "No user selected.";
-
-  return;
-
-}
-
-
-isCaller = true;
-
-
-callId =
-  currentUser.uid +
-  "_" +
-  otherUserId +
-  "_" +
-  Date.now();
-
-
-callRef =
-  doc(
-    db,
-    "Calls",
-    callId
-  );
-
-
-try {
-
-  await setDoc(
-    callRef,
-    {
-      callerId:
-        currentUser.uid,
-
-      receiverId:
-        otherUserId,
-
-      callerName:
-        currentUser.displayName ||
-        name ||
-        "WORLD CHAT USER",
-
-      type:
-        type,
-
-      status:
-        "ringing",
-
-      callerCandidates:
-        [],
-
-      receiverCandidates:
-        [],
-
-      createdAt:
-        serverTimestamp()
-    }
-  );
-
-
-  const newURL =
-    "call.html?type=" +
-    encodeURIComponent(type) +
-    "&uid=" +
-    encodeURIComponent(otherUserId) +
-    "&name=" +
-    encodeURIComponent(name) +
-    "&callId=" +
-    encodeURIComponent(callId);
-
-
-  window.history.replaceState(
-    {},
-    "",
-    newURL
-  );
-
-
-  await startCallerCall();
-
-} catch (error) {
-
-  console.error(
-    "START CALL ERROR:",
-    error
-  );
-
-  callStatus.textContent =
-    "Unable to start call.";
-
-}
-
-}
+  }
 );
